@@ -3,6 +3,7 @@
 #include<vector>
 
 
+
 using namespace std;
 
 class user{
@@ -173,7 +174,7 @@ int main()
         break;
 
        case 4:
-        t.editcontact();
+        t.deletecontact();
         break;
 
        case 5:
@@ -194,5 +195,5 @@ int main()
     }
     while(choice<=6);
 
-
+return 0;
 }
