@@ -1,9 +1,7 @@
+
 #include <iostream>
 #include<string>
 #include<vector>
-
-
-
 using namespace std;
 
 class user{
@@ -144,56 +142,104 @@ if(!found){
 
 };
 
-int main()
-{
-
+int main() {
+    loginSystem loginSys;
     telephonelist t;
-    int choice;
-    do{
 
-       cout<<endl<<"telephone book list: "<<endl;
-       cout<<" 1 -> create contact"<<endl;
-       cout<<"2 ->  display all contact "<<endl;
-       cout<<"3-> update contact"<<endl;
-       cout<<"4-> Delete contact "<<endl;
-       cout<<"5 -> search contact "<<endl;
-       cout<<"6 -> exit "<<endl;
-       cout<<"Enter your choice :"<<endl;
-       cin>>choice;
+    int option;
+    string username, password;
+    bool isLoggedIn = false;
 
-       switch(choice){
-       case 1:
-        t.createcontact();
-        break;
-       case 2:
-        t.getcontact();
-        break;
+    cout << "Welcome to Telephone Book App" << endl;
+    cout << "1. Register\n2. Login\nChoose option: ";
+    cin >> option;
 
-       case 3:
-        t.editcontact();
-        break;
+    cout << "Enter username: ";
+    cin >> username;
+    cout << "Enter password: ";
+    cin >> password;
 
-       case 4:
-        t.deletecontact();
-        break;
+    if (option == 1) {
+        if (loginSys.registerUser(username, password)) {
+            cout << "Registered Successfully!" << endl;
 
-       case 5:
-        t.searchcontact();
-        break;
+            // Ask to login after successful registration
+            cout << "Please login to continue." << endl;
+            cout << "Enter username: ";
+            cin >> username;
+            cout << "Enter password: ";
+            cin >> password;
 
-       case 6:
-        cout<<"thanks for visting "<<endl;
-        break;
-
-         default:
-        cout<<"invalid choice!"<<endl;
-        break;
-       }
-
-
-
+            if (loginSys.login(username, password)) {
+                cout << "Login successful!" << endl;
+                isLoggedIn = true;
+            } else {
+                cout << "Login failed!" << endl;
+                return 0;
+            }
+        } else {
+            cout << "Registration failed!" << endl;
+            return 0;
+        }
+    } else if (option == 2) {
+        if (loginSys.login(username, password)) {
+            cout << "Login successful!" << endl;
+            isLoggedIn = true;
+        } else {
+            cout << "Login failed!" << endl;
+            return 0;
+        }
+    } else {
+        cout << "Invalid option!" << endl;
+        return 0;
     }
-    while(choice<=6);
 
-return 0;
+    //  Only show telephone menu if user is logged in
+    if (!isLoggedIn) {
+        cout << "You must login first to access contacts." << endl;
+        return 0;
+    }
+
+    // Now show the telephone book menu
+    int choice;
+    do {
+        cout << "\nTelephone Book Menu:\n";
+        cout << "1 -> Create Contact\n";
+        cout << "2 -> Display All Contacts\n";
+        cout << "3 -> Update Contact\n";
+        cout << "4 -> Delete Contact\n";
+        cout << "5 -> Search Contact\n";
+        cout << "6 -> Exit\n";
+        cout << "Enter your choice: ";
+        cin >> choice;
+
+        switch (choice) {
+            case 1:
+                t.createcontact();
+                break;
+            case 2:
+                t.getcontact();
+                break;
+            case 3:
+                t.editcontact();
+                break;
+            case 4:
+                t.deletecontact();
+                break;
+            case 5:
+                t.searchcontact();
+                break;
+            case 6:
+                cout << "Thanks for using Telephone Book!" << endl;
+                break;
+            default:
+                cout << "Invalid choice!" << endl;
+                break;
+        }
+
+    } while (choice != 6);
+
+    return 0;
 }
+
+
