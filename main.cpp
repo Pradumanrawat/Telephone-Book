@@ -1,4 +1,4 @@
-
+#include <fstream>
 #include <iostream>
 #include<string>
 #include<vector>
@@ -141,6 +141,35 @@ if(!found){
 
 
 };
+
+
+
+class loginSystem {
+public:
+    bool registerUser(string username, string password) {
+        ofstream file("users.txt", ios::app);
+        if (file.is_open()) {
+            file << username << " " << password << endl;
+            file.close();
+            return true;
+        }
+        return false;
+    }
+
+    bool login(string username, string password) {
+        ifstream file("users.txt");
+        string fileUsername, filePassword;
+
+        while (file >> fileUsername >> filePassword) {
+            if (fileUsername == username && filePassword == password) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+};
+
 
 int main() {
     loginSystem loginSys;
